@@ -1,10 +1,12 @@
 #include <windows.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <dos.h>
 #include <string.h>
 #include <stdbool.h>
 #include <stdlib.h>
 
+bool isLoggedIn = false;
 bool isRunning = true;
 void Menu();
 void AddNewNumber();
@@ -23,20 +25,59 @@ void GoBackOrExit();
 void UserGuideline();
 void AboutUs();
 void Exit();
+void PasswordLogin();
 
 int main(){
     int i;
     system("COLOR 75");
-    printf("\t\t");
-    char AppStarting[100] = "Application is Starting....";
-    for(i=0;i<strlen(AppStarting);i++){
-        printf("%c",AppStarting[i]);
-        Sleep(40);
+     char *filename = "image.txt";
+    FILE *fptr = NULL;
+    char read_string[128];
+
+    if ((fptr = fopen(filename, "r")) == NULL)
+    {
+        fprintf(stderr, "Error opening %s\n", filename);
+        return 1;
     }
+
+    while (fgets(read_string, sizeof(read_string), fptr) != NULL)
+    printf("%s", read_string);
+  fclose(fptr);
+
+    char *filename2 = "IMAGE2.txt";
+    FILE *fptr2 = NULL;
+    char read_string2[128];
+
+    if ((fptr2 = fopen(filename2, "r")) == NULL)
+    {
+        fprintf(stderr, "Error opening %s\n", filename2);
+        return 1;
+    }
+
+     while (fgets(read_string, sizeof(read_string), fptr) != NULL)
+    {
+        for (i = 0; i < strlen(read_string); i++)
+        {
+            printf("%c", read_string[i]);
+            // Allow other processes to execute
+            Sleep(3); // Sleep for 2 millisecond
+        }
+    }
+    sleep(2);
+
+    fclose(fptr2);
+
     system("cls");
 
+ while(isRunning == true){
+        if (!isLoggedIn) {
+            PasswordLogin();  // Prompt for password if not logged in
+            if (!isLoggedIn) {
+                // Incorrect password, exit the program
+                return 0;
+            }
+        }
 
-    while(isRunning == true){
         Menu();
         char *str[100];
         char option;
@@ -83,7 +124,29 @@ int main(){
 
     return 0;
 }
+void PasswordLogin() {
+    char password[20];
+    printf("\n\n\t\t **** Password Login ****\n\n");
+    printf("Enter the password: ");
+    scanf("%s", password);
 
+    if (strcmp(password, "BB") == 0) {
+        isLoggedIn = true;
+        printf("\nLogin successful!\n");
+         printf("\n\n\t\t");
+    for(int i=0;i<60;i++)
+    {
+        Sleep(12);
+        printf("%c",219);
+    }
+      printf(" \n\n \t\t\t\t Press Any Key to Continue...");
+    fflush(stdin);
+    system("cls");
+    } else {
+        printf("\nIncorrect password! Access denied.\n");
+    }
+
+}
 void Menu(){
     printf("\n\t **** My-Contact Management System Using C ****\n");
     printf("\n\t\t\tMAIN MENU\n");
@@ -575,17 +638,40 @@ void Exit(){
     if(YesOrNO == 'Y' || YesOrNO == 'y'){
         system("cls");
 
-        char ThankYou[100] = "=====Thank You=====\n";
-        char SeeYouSoon[100] = "=====See You Soon=====\n";
+        char ThankYou[100] = "======Thank You======";
+        char SeeYouSoon[100] = "=====See You Soon=====";
         int i=0;
+        printf("\n\n\n");
+         for(int i=0;i<60;i++)
+    {
+        Sleep(12);
+        printf("%c",219);
+    }
         for(i=0;i<strlen(ThankYou);i++){
             printf("%c",ThankYou[i]);
             Sleep(40);
         }
+          for(int i=0;i<60;i++)
+    {
+        Sleep(12);
+        printf("%c",219);
+    }
+    printf("\n");
+     printf("\n");
+      for(int i=0;i<60;i++)
+    {
+        Sleep(12);
+        printf("%c",219);
+    }
         for(i=0;i<strlen(SeeYouSoon);i++){
             printf("%c",SeeYouSoon[i]);
             Sleep(40);
         }
+       for(int i=0;i<60;i++)
+    {
+        Sleep(12);
+        printf("%c",219);
+    }
         isRunning =  false;
     }
 }
