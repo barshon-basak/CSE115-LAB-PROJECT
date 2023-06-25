@@ -1,3 +1,10 @@
+/*
+Barshon Basak      ID: 2311625642
+CSE115   Section: 5
+*/
+// This is a C program for a project of Contact Management
+// The program allows the user to Add, Modify, Delete and check the contacts
+
 #include <windows.h>
 #include <unistd.h>
 #include <stdio.h>
@@ -28,6 +35,19 @@ void Exit();
 void PasswordLogin();
 
 int main(){
+    CONSOLE_SCREEN_BUFFER_INFOEX info = {0};
+    int width, height;
+    HANDLE hConsole = NULL;
+
+    ShowWindow(GetConsoleWindow(), SW_SHOWMAXIMIZED);
+
+    hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    info.cbSize = sizeof(info);
+    GetConsoleScreenBufferInfoEx(hConsole, &info);
+
+    width = info.srWindow.Right+1;
+    height = info.srWindow.Bottom+1;
+
     int i;
     system("COLOR 75");
      char *filename = "image.txt";
